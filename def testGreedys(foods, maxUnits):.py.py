@@ -46,22 +46,30 @@ def testGreedy(foods, maxUnits, keyFunction):
     return foodList, usedCals, usedValue
 
 
-def testGreedys(foods, maxUnits):
+def testGreedys(foods, maxUnits, saveToCSV=False):
+    from save_results import saveResultsToCSV
+    
     print('Use greedy by value to allocate', maxUnits,
 'calories')
     foodList, cals, value = testGreedy(foods, maxUnits, Food.getValue)
     printResult(foodList, cals, value)
+    if saveToCSV:
+        saveResultsToCSV(foodList, cals, value, 'by value')
     
     print('\nUse greedy by cost to allocate', maxUnits,
 'calories')
     foodList, cals, value = testGreedy(foods, maxUnits,
 lambda x: 1/Food.getCost(x))
     printResult(foodList, cals, value)
+    if saveToCSV:
+        saveResultsToCSV(foodList, cals, value, 'by cost')
     
     print('\nUse greedy by density to allocate', maxUnits,
 'calories')
     foodList, cals, value = testGreedy(foods, maxUnits, Food.density)
     printResult(foodList, cals, value)
+    if saveToCSV:
+        saveResultsToCSV(foodList, cals, value, 'by density')
 
 
 def printResult(foodList, totalCals, totalValue):
@@ -79,4 +87,4 @@ if __name__ == '__main__':
     values = [3, 3, 3, 3, 3, 3]  # probiotic score in billions
     calories = [90, 90, 90, 90, 90, 90]
     foods = buildMenu(names, values, calories)
-    testGreedys(foods, 750)
+    testGreedys(foods, 750, saveToCSV=True)
