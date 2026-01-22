@@ -3,14 +3,18 @@ import os
 from datetime import datetime
 
 
-def saveResultsToCSV(foodList, totalCals, totalValue, strategy, filename='yogurt_results.csv'):
+def saveResultsToCSV(foodList, totalCals, totalValue, totalProtein, totalSugar, totalFat, 
+                     strategy, filename='yogurt_results.csv'):
     """
-    Save greedy algorithm results to a CSV file with timestamp.
+    Save greedy algorithm results to a CSV file with timestamp and macronutrients.
     
     Args:
         foodList: List of Food objects selected
         totalCals: Total calories used
         totalValue: Total value achieved
+        totalProtein: Total protein in grams
+        totalSugar: Total sugar in grams
+        totalFat: Total fat in grams
         strategy: Name of the greedy strategy used (e.g., 'value', 'cost', 'density')
         filename: CSV filename to save to
     """
@@ -21,7 +25,8 @@ def saveResultsToCSV(foodList, totalCals, totalValue, strategy, filename='yogurt
     timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     
     with open(filename, 'a', newline='') as csvfile:
-        fieldnames = ['Date Created', 'Strategy', 'Food Items', 'Item Count', 'Total Calories', 'Total Value']
+        fieldnames = ['Date Created', 'Strategy', 'Food Items', 'Item Count', 'Total Calories', 
+                     'Total Value', 'Total Protein (g)', 'Total Sugar (g)', 'Total Fat (g)']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         
         # Write header if file is new
@@ -38,7 +43,10 @@ def saveResultsToCSV(foodList, totalCals, totalValue, strategy, filename='yogurt
             'Food Items': food_items,
             'Item Count': len(foodList),
             'Total Calories': totalCals,
-            'Total Value': totalValue
+            'Total Value': totalValue,
+            'Total Protein (g)': totalProtein,
+            'Total Sugar (g)': totalSugar,
+            'Total Fat (g)': totalFat
         })
     
     print(f"Results saved to {filename}")
